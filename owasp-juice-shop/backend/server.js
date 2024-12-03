@@ -18,6 +18,10 @@ const basketRoutes = require('./routes/basketRoutes');
 const fileRoutes = require('./routes/fileRoutes');
 const confidentialDocumentsRoutes = require('./routes/confidentialDocumentsRoutes'); 
 const scoreboardRoutes = require('./routes/scoreboardRoutes');
+const feedbackRoutes = require('./routes/filesizeRoute');
+
+app.use('/api/feedback', feedbackRoutes);
+
 
 
 app.use('/api/users', userRoutes);
