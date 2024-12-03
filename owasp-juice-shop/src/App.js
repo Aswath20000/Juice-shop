@@ -10,26 +10,27 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import ConfidentialDocuments from './components/ConfidentialDocuments';
 import FileUpload from './components/FileUpload';
 import Scoreboard from './components/Scoreboard';
+import './App.css';
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/basket" element={<Basket />} />
-        <Route path="/feedback" element={<Feedback />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/confidential-documents" element={<ConfidentialDocuments />} />
-        <Route path="/file-upload" element={<FileUpload />} />
-        <Route path="/scoreboard" element={<Scoreboard/>}/>
-        <Route path="/fileUpload" element={<FileUpload/>}/>
-      </Routes>
-    </Router>
+    <div className="app-container">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/basket" element={<Basket />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/confidential-documents" element={<ConfidentialDocuments />} />
+          <Route path="/file-upload" element={<FileUpload />} />
+          <Route path="/scoreboard" element={<Scoreboard />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
-
 export default App;

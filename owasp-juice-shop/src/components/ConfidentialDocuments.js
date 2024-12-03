@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './CSS/Confidential.css';
 
 const ConfidentialDocuments = () => {
   const [documents, setDocuments] = useState([]);
@@ -12,10 +13,8 @@ const ConfidentialDocuments = () => {
         const response = await axios.get('http://localhost:5000/api/confidential-documents');
         setDocuments(response.data || []);
 
-        // Set the flag in localStorage to indicate that the user has accessed confidential documents
         localStorage.setItem('accessedConfidentialDocs', 'true');
 
-        // Add achievement to the backend
         if (username) {
           await axios.post(`http://localhost:5000/api/scoreboard/${username}`, {
             achievement: 'Accessed Confidential Documents',
@@ -31,7 +30,7 @@ const ConfidentialDocuments = () => {
   }, [username]);
 
   return (
-    <div style={{ textAlign: 'center', margin: '50px' }}>
+    <div className="confidential-container">
       <h2>Confidential Documents</h2>
       {error ? (
         <p>{error}</p>

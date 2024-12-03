@@ -1,0 +1,46 @@
+/* home.css */
+.container {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .container p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .container nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .container nav a button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .container nav a button:hover {
+    background-color: #0056b3;
+  }
+  
+  .container nav a button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #0056b3;
+  }
+  

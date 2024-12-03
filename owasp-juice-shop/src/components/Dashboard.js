@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './CSS/Dashboard.css';
 
 const Dashboard = () => {
-  const username = localStorage.getItem('username');
-  const vegetables = [
-    { id: 1, name: 'Tomato', description: 'Fresh and juicy tomatoes.', image: 'tomato.jpg' },
-    { id: 2, name: 'Carrot', description: 'Crunchy and sweet carrots.', image: 'carrot.jpg' },
-    { id: 3, name: 'Potato', description: 'Perfect for fries and baking.', image: 'potato.jpg' },
-  ];
-
+  const username = localStorage.getItem('username') || 'Guest';
   const [message, setMessage] = useState('');
-  const [showCongratsMessage, setShowCongratsMessage] = useState(false);
-  const [fileUploadMessage, setFileUploadMessage] = useState('');
+  const [showFileCongratsMessage, setShowFileCongratsMessage] = useState(false);
+  const [showConfidentialCongratsMessage, setShowConfidentialCongratsMessage] = useState(false);
+  const [vegetables] = useState([
+    { id: 1, name: 'Tomato', description: 'Fresh and juicy tomatoes.', image: 'images/tomato.jpg' },
+    { id: 2, name: 'Carrot', description: 'Crunchy and sweet carrots.', image: 'images/carrot.jpg' },
+    { id: 3, name: 'Potato', description: 'Perfect for fries and baking.', image: 'images/potato.jpg' },
+    { id: 4, name: 'Orange', description: 'Sweet and tangy oranges.', image: 'images/orange.jpg' },
+    { id: 5, name: 'Spinach', description: 'Fresh and nutritious spinach leaves.', image: 'images/spinach.jpg' },
+    { id: 6, name: 'Cucumber', description: 'Refreshing and crisp cucumbers.', image: 'images/cucumber.jpg' },
+    { id: 7, name: 'Bell Pepper', description: 'Sweet and colorful bell peppers.', image: 'images/bellpepper.jpg' },
+    { id: 8, name: 'Lettuce', description: 'Crisp and fresh lettuce leaves.', image: 'images/lettuce.jpg' },
+    { id: 9, name: 'Broccoli', description: 'Rich in vitamins and minerals.', image: 'images/broccoli.jpg' },
+  ]);
 
   useEffect(() => {
-    const accessedConfidentialDocs = localStorage.getItem('accessedConfidentialDocs');
-    if (accessedConfidentialDocs === 'true') {
-      setShowCongratsMessage(true);
-    }
+    const fetchUserAchievements = async () => {
+      if (username !== 'Guest') {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/user/${username}`);
+          const achievements = response.data.achievements;
 
-    // Check if the flag for file upload challenge exists
-    const fileUploadFlag = localStorage.getItem('fileUploadFlag');
-    if (fileUploadFlag === 'non-pdf') {
-      setFileUploadMessage('File upload challenge completed.');
-    }
-  }, []);
+          if (achievements.includes('fileupload')) {
+            setShowFileCongratsMessage(true);
+          }
+          if (localStorage.getItem('accessedConfidentialDocs') === 'true') {
+            setShowConfidentialCongratsMessage(true);
+          }
+        } catch (error) {
+          console.error('Error fetching achievements:', error);
+        }
+      }
+    };
+
+    fetchUserAchievements();
+  }, [username]);
 
   const addToBasket = async (veg) => {
-    if (!username) {
+    if (username === 'Guest') {
       setMessage('Please log in to add items to your basket.');
       return;
     }
@@ -46,76 +61,68 @@ const Dashboard = () => {
     }
   };
 
-  const handleCloseCongratsMessage = () => {
-    setShowCongratsMessage(false);
-    localStorage.removeItem('accessedConfidentialDocs'); // Remove the flag from localStorage
+  const handleCloseFileCongratsMessage = () => {
+    setShowFileCongratsMessage(false);
+  };
+
+  const handleCloseConfidentialCongratsMessage = () => {
+    setShowConfidentialCongratsMessage(false);
+    localStorage.removeItem('accessedConfidentialDocs');
   };
 
   return (
-    <div style={{ textAlign: 'center', margin: '50px' }}>
-      <h1>Hello, {username || 'Guest'}</h1>
-      <p>Welcome to your dashboard! Choose an option or explore our vegetables:</p>
+    <div className="dashboard-container">
+      <h1>Hello, {username}</h1>
+      <p>Welcome to your dashboard!</p>
 
-      {/* Display Congratulatory Message */}
-      {showCongratsMessage && (
-        <div style={{ backgroundColor: 'lightgreen', padding: '10px', marginBottom: '20px' }}>
+    
+      {showFileCongratsMessage && (
+        <div className="congrats-message">
+          <p>Congratulations! You have completed the File Upload Challenge.</p>
+          <button onClick={handleCloseFileCongratsMessage}>Close</button>
+        </div>
+      )}
+
+      {showConfidentialCongratsMessage && (
+        <div className="congrats-message">
           <p>Congratulations! You have accessed the Confidential Documents.</p>
-          <button onClick={handleCloseCongratsMessage} style={{ marginLeft: '10px' }}>
-            Close
-          </button>
+          <button onClick={handleCloseConfidentialCongratsMessage}>Close</button>
         </div>
       )}
 
-      {/* Display File Upload Challenge Message */}
-      {fileUploadMessage && (
-        <div style={{ backgroundColor: 'lightblue', padding: '10px', marginBottom: '20px' }}>
-          <p>{fileUploadMessage}</p>
-        </div>
-      )}
+      
+      {message && <p className="feedback-message">{message}</p>}
 
-      {/* Navigation Buttons */}
-      <div style={{ marginBottom: '20px' }}>
+      
+      <div className="nav-buttons">
         <Link to="/basket">
-          <button style={{ margin: '10px' }}>Basket</button>
+          <button>Basket</button>
         </Link>
         <Link to="/feedback">
-          <button style={{ margin: '10px' }}>Feedback</button>
+          <button>Feedback</button>
         </Link>
         <Link to="/privacy-policy">
-          <button style={{ margin: '10px' }}>Privacy Policy</button>
+          <button>Privacy Policy</button>
         </Link>
         <Link to="/file-upload">
-          <button style={{ margin: '10px' }}>File Upload</button>
+          <button>File Upload</button>
+        </Link>
+        <Link to="/confidential-documents">
+          <button>Confidential Documents</button>
         </Link>
       </div>
 
-      {/* Vegetable Tiles */}
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '20px' }}>
+      
+      <div className="vegetable-container">
         {vegetables.map((veg) => (
-          <div
-            key={veg.id}
-            style={{
-              border: '1px solid #ddd',
-              borderRadius: '5px',
-              width: '200px',
-              padding: '10px',
-              textAlign: 'center',
-            }}
-          >
-            <img
-              src={`/${veg.image}`}
-              alt={veg.name}
-              style={{ width: '100%', height: '150px', objectFit: 'cover' }}
-            />
+          <div key={veg.id} className="vegetable-card">
+            <img src={`/${veg.image}`} alt={veg.name} />
             <h3>{veg.name}</h3>
             <p>{veg.description}</p>
             <button onClick={() => addToBasket(veg)}>Add to Basket</button>
           </div>
         ))}
       </div>
-
-      {/* Message Feedback */}
-      {message && <p>{message}</p>}
     </div>
   );
 };
