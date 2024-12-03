@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [message, setMessage] = useState('');
   const [showFileCongratsMessage, setShowFileCongratsMessage] = useState(false);
   const [showConfidentialCongratsMessage, setShowConfidentialCongratsMessage] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');  
   const [vegetables] = useState([
     { id: 1, name: 'Tomato', description: 'Fresh and juicy tomatoes.', image: 'images/tomato.jpg' },
     { id: 2, name: 'Carrot', description: 'Crunchy and sweet carrots.', image: 'images/carrot.jpg' },
@@ -70,12 +71,16 @@ const Dashboard = () => {
     localStorage.removeItem('accessedConfidentialDocs');
   };
 
+  
+  const filteredVegetables = vegetables.filter((veg) =>
+    veg.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dashboard-container">
       <h1>Hello, {username}</h1>
       <p>Welcome to your dashboard!</p>
 
-    
       {showFileCongratsMessage && (
         <div className="congrats-message">
           <p>Congratulations! You have completed the File Upload Challenge.</p>
@@ -90,10 +95,18 @@ const Dashboard = () => {
         </div>
       )}
 
-      
       {message && <p className="feedback-message">{message}</p>}
 
       
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search for vegetables..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="nav-buttons">
         <Link to="/basket">
           <button>Basket</button>
@@ -107,14 +120,12 @@ const Dashboard = () => {
         <Link to="/file-upload">
           <button>File Upload</button>
         </Link>
-        <Link to="/confidential-documents">
-          <button>Confidential Documents</button>
-        </Link>
+        
       </div>
 
-      
+    
       <div className="vegetable-container">
-        {vegetables.map((veg) => (
+        {filteredVegetables.map((veg) => (
           <div key={veg.id} className="vegetable-card">
             <img src={`/${veg.image}`} alt={veg.name} />
             <h3>{veg.name}</h3>

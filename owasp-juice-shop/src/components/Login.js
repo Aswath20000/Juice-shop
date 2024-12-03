@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './CSS/Login.css'; // Import the CSS file
+import './CSS/Login.css'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -23,11 +23,11 @@ const Login = () => {
         password,
       });
 
-      // Save token and username in localStorage
+      
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('username', username);
 
-      // Navigate to the dashboard
+      
       navigate('/dashboard');
     } catch (error) {
       console.error('Error logging in:', error);

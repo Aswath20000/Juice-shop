@@ -2,7 +2,7 @@ const express = require('express');
 const Basket = require('../models/Basket');
 const router = express.Router();
 
-// Add Item to Basket
+
 router.post('/:username', async (req, res) => {
   const { name, description, image } = req.body;
 
@@ -27,7 +27,7 @@ router.post('/:username', async (req, res) => {
   }
 });
 
-// Get Basket
+
 router.get('/:username', async (req, res) => {
   try {
     const basket = await Basket.findOne({ username: req.params.username });
