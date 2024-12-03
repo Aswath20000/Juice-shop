@@ -8,7 +8,7 @@ const FileUpload = () => {
     const [message, setMessage] = useState('');
     const [username, setUsername] = useState('');
 
-    // Get the username from localStorage on component mount
+    
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
@@ -43,13 +43,13 @@ const FileUpload = () => {
             return;
         }
 
-        // Form data to send the file
+        
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('fileExtension', fileExtension);  // Optional: if needed by the backend
+        formData.append('fileExtension', fileExtension);  
 
         try {
-            // Sending file to the backend
+            
             const response = await axios.post(`http://localhost:5000/api/feedback/${username}/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
