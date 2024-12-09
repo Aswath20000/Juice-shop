@@ -1,0 +1,43 @@
+.photo-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .photo-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .photo-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .photo-card h3 {
+    margin: 10px 0;
+  }
+  
+  .download-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .download-button:hover {
+    background-color: #0056b3;
+  }
+  

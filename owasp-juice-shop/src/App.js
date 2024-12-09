@@ -10,6 +10,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import ConfidentialDocuments from './components/ConfidentialDocuments';
 import FileUpload from './components/FileUpload';
 import Scoreboard from './components/Scoreboard';
+import Photo from './components/Photo';
 import './App.css';
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/confidential-documents" element={<ConfidentialDocuments />} />
           <Route path="/file-upload" element={<FileUpload />} />
           <Route path="/scoreboard" element={<Scoreboard />} />
+          <Route path="/photo" element={<Photo/>}/>
         </Routes>
       </Router>
     </div>

@@ -120,6 +120,9 @@ const Dashboard = () => {
         <Link to="/file-upload">
           <button>File Upload</button>
         </Link>
+        <Link to="/photo">
+        <button>photo</button>
+        </Link>
         
       </div>
 

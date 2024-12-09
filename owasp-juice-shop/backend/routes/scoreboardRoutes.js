@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-// Get user's achievements
+
 router.get('/:username', async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
@@ -16,7 +16,7 @@ router.get('/:username', async (req, res) => {
   }
 });
 
-// Add an achievement to a user's record
+
 router.post('/:username', async (req, res) => {
   const { achievement } = req.body;
   if (!achievement) {
@@ -29,7 +29,7 @@ router.post('/:username', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Add the new achievement to the user's achievements list
+  
     user.achievements.push(achievement);
     await user.save();
 
