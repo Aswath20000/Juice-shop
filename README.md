@@ -119,13 +119,13 @@ The main landing page where users can browse and buy items, serving as the prima
 
 A simulated shopping cart where users can interact with purchased items.
 
-<img src="./images/basket-page.png" alt="Dashboard" width="700">
+<img src="./images/basket-page.png" alt="Basket page" width="700">
 
 #### **3. Score board**
 
 Tracks and displays the user's overall score and ranking among other participants.
 
-<img src="./images/score-board.png" alt="Dashboard" width="700">
+<img src="./images/score-board.jpg" alt="Score board" width="700">
 
 ## Conclusion
 
