@@ -1,70 +1,150 @@
-# Getting Started with Create React App
+# OWASP Juice Shop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A **React-based web application** inspired by the OWASP Juice Shop, featuring a set of interactive challenges to explore and learn about common web application vulnerabilities. This project is ideal for practicing secure coding techniques and understanding real-world security issues in a safe, controlled environment.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+1. [Overview](#overview)
+2. [Prerequisites](#prerequisites)
+3. [Setup Instructions](#setup-instruction)
+4. [User Interface](#user-interface)
+5. [Conclusion](#conclusion)
+6. [References](#references)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project is a **React-based clone of the OWASP Juice Shop**, designed as a learning platform to practice web application security concepts. It features **unique cyber security challenges** that simulate real-world vulnerabilities, allowing users to explore and mitigate common security issues in a controlled environment.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisite
 
-### `npm test`
+Before setting up the project, ensure the following tools and software are installed on your system:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Node.js** (v16 or later)
 
-### `npm run build`
+   - Download and install from the [Node.js official site](https://nodejs.org/).
+   - Verify installation:
+     ```bash
+     node -v
+     npm -v
+     ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Git**
+   - Download and install from the [Git official site](https://git-scm.com/).
+   - Verify installation:
+     ```bash
+     git --version
+     ```
+3. **MongoDB**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   - Ensure you have MongoDB installed and running on your local machine or use a cloud-based service like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+   - Verify installation (for local setup):
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   mongo --version
+   ```
 
-### `npm run eject`
+4. **Code Editor** (Optional but recommended)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   - Use an editor like [Visual Studio Code](https://code.visualstudio.com/).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. **Browser**
+   - A modern web browser like Chrome, Firefox, or Edge for testing.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+If your project involves a database or API, make sure the relevant services or tools (e.g., Docker, Postman) are also installed.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Setup Instructions
 
-## Learn More
+#### **1. Clone the Repository**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Download the project code to your local machine using Git:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+git clone https://github.com/Aswath20000/Juice-shop
+cd Juice-shop/owasp-juice-shop
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### **2. Install Dependencies**
 
-### Analyzing the Bundle Size
+Install the required packages using npm:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm install
+cd backend
+npm i
+```
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### **4. Start the Development Server**
 
-### Advanced Configuration
+First, Run the development server with the following command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+cd backend
+node server.js
+```
 
-### Deployment
+Then for frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm start
+```
 
-### `npm run build` fails to minify
+The application will be accessible at `http://localhost:3000` in your browser.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+#### **5. Additional Configuration (Optional)**
+
+- **Challenges Setup:** Modify challenge configurations located in the `src/challenges/` directory as needed.
+- **Database/API:** If the project uses a backend or database, ensure those services are up and running before starting the app.
+
+---
+
+You are now ready to explore and use the application!
+
+## User Interface
+
+The application is designed with a user-friendly interface that provides intuitive navigation and interactive features. Here's a breakdown of the main UI components:
+
+#### **1. Dashboard**
+
+The main landing page where users can browse and buy items, serving as the primary interaction hub.
+
+<img src="./images/dashboard.png" alt="Dashboard" width="700">
+
+#### **2. Basket page**
+
+A simulated shopping cart where users can interact with purchased items.
+
+<img src="./images/basket-page.png" alt="Dashboard" width="700">
+
+#### **3. Score board**
+
+Tracks and displays the user's overall score and ranking among other participants.
+
+<img src="./images/score-board.png" alt="Dashboard" width="700">
+
+## Conclusion
+
+This project serves as an engaging platform to learn and practice web application security through a React-based clone of the OWASP Juice Shop. By simulating real-world vulnerabilities and providing interactive challenges, it offers users a hands-on approach to understanding and mitigating common security issues. With its flexible design and customizable features, this project is not only a valuable educational tool but also a foundation for extending and exploring advanced security concepts.
+
+## References
+
+1. **OWASP Juice Shop**  
+   The official OWASP Juice Shop, which this project is based on. A vulnerable web application designed for security testing and learning.
+
+   - [OWASP Juice Shop Official Website](https://owasp.org/www-project-juice-shop/)
+
+2. **React Documentation**  
+   The official React documentation, used as a reference for building the frontend of this project.
+
+   - [React Docs](https://reactjs.org/docs/getting-started.html)
+
+3. **Node.js Documentation**  
+   Documentation for Node.js, which is used as the runtime environment for this application.
+   - [Node.js Docs](https://nodejs.org/en/docs/)
+
+These resources provided the foundation for creating this web application and implementing security challenges for users to explore.
