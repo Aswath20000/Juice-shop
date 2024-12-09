@@ -1,41 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import './CSS/Dashboard.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./CSS/Dashboard.css";
 
 const Dashboard = () => {
-  const username = localStorage.getItem('username') || 'Guest';
-  const [message, setMessage] = useState('');
+  const username = localStorage.getItem("username") || "Guest";
+  const [message, setMessage] = useState("");
   const [showFileCongratsMessage, setShowFileCongratsMessage] = useState(false);
   const [showConfidentialCongratsMessage, setShowConfidentialCongratsMessage] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');  
+  const [showXSSCongratsMessage, setShowXSSCongratsMessage] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [vegetables] = useState([
-    { id: 1, name: 'Tomato', description: 'Fresh and juicy tomatoes.', image: 'images/tomato.jpg' },
-    { id: 2, name: 'Carrot', description: 'Crunchy and sweet carrots.', image: 'images/carrot.jpg' },
-    { id: 3, name: 'Potato', description: 'Perfect for fries and baking.', image: 'images/potato.jpg' },
-    { id: 4, name: 'Orange', description: 'Sweet and tangy oranges.', image: 'images/orange.jpg' },
-    { id: 5, name: 'Spinach', description: 'Fresh and nutritious spinach leaves.', image: 'images/spinach.jpg' },
-    { id: 6, name: 'Cucumber', description: 'Refreshing and crisp cucumbers.', image: 'images/cucumber.jpg' },
-    { id: 7, name: 'Bell Pepper', description: 'Sweet and colorful bell peppers.', image: 'images/bellpepper.jpg' },
-    { id: 8, name: 'Lettuce', description: 'Crisp and fresh lettuce leaves.', image: 'images/lettuce.jpg' },
-    { id: 9, name: 'Broccoli', description: 'Rich in vitamins and minerals.', image: 'images/broccoli.jpg' },
+    { id: 1, name: "Tomato", description: "Fresh and juicy tomatoes.", image: "images/tomato.jpg" },
+    { id: 2, name: "Carrot", description: "Crunchy and sweet carrots.", image: "images/carrot.jpg" },
+    { id: 3, name: "Potato", description: "Perfect for fries and baking.", image: "images/potato.jpg" },
+    { id: 4, name: "Orange", description: "Sweet and tangy oranges.", image: "images/orange.jpg" },
+    { id: 5, name: "Spinach", description: "Fresh and nutritious spinach leaves.", image: "images/spinach.jpg" },
+    { id: 6, name: "Cucumber", description: "Refreshing and crisp cucumbers.", image: "images/cucumber.jpg" },
+    { id: 7, name: "Bell Pepper", description: "Sweet and colorful bell peppers.", image: "images/bellpepper.jpg" },
+    { id: 8, name: "Lettuce", description: "Crisp and fresh lettuce leaves.", image: "images/lettuce.jpg" },
+    { id: 9, name: "Broccoli", description: "Rich in vitamins and minerals.", image: "images/broccoli.jpg" },
   ]);
 
   useEffect(() => {
     const fetchUserAchievements = async () => {
-      if (username !== 'Guest') {
+      if (username !== "Guest") {
         try {
           const response = await axios.get(`http://localhost:5000/api/user/${username}`);
           const achievements = response.data.achievements;
 
-          if (achievements.includes('fileupload')) {
+          if (achievements.includes("fileupload")) {
             setShowFileCongratsMessage(true);
           }
-          if (localStorage.getItem('accessedConfidentialDocs') === 'true') {
+          if (localStorage.getItem("accessedConfidentialDocs") === "true") {
             setShowConfidentialCongratsMessage(true);
           }
         } catch (error) {
-          console.error('Error fetching achievements:', error);
+          console.error("Error fetching achievements:", error);
         }
       }
     };
@@ -44,8 +45,8 @@ const Dashboard = () => {
   }, [username]);
 
   const addToBasket = async (veg) => {
-    if (username === 'Guest') {
-      setMessage('Please log in to add items to your basket.');
+    if (username === "Guest") {
+      setMessage("Please log in to add items to your basket.");
       return;
     }
 
@@ -57,8 +58,8 @@ const Dashboard = () => {
       });
       setMessage(response.data.message || `${veg.name} added to your basket.`);
     } catch (error) {
-      console.error('Error adding to basket:', error);
-      setMessage('Failed to add item to basket.');
+      console.error("Error adding to basket:", error);
+      setMessage("Failed to add item to basket.");
     }
   };
 
@@ -68,10 +69,24 @@ const Dashboard = () => {
 
   const handleCloseConfidentialCongratsMessage = () => {
     setShowConfidentialCongratsMessage(false);
-    localStorage.removeItem('accessedConfidentialDocs');
+    localStorage.removeItem("accessedConfidentialDocs");
   };
 
-  
+  // Function to detect XSS in iframe content
+  const handleIframeLoad = () => {
+    const iframe = document.getElementById("xssFrame");
+    if (iframe) {
+      try {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (iframeDoc.body.innerHTML.includes("<script>")) {
+          setShowXSSCongratsMessage(true);
+        }
+      } catch (error) {
+        console.error("Error accessing iframe content:", error);
+      }
+    }
+  };
+
   const filteredVegetables = vegetables.filter((veg) =>
     veg.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -95,16 +110,28 @@ const Dashboard = () => {
         </div>
       )}
 
+      {showXSSCongratsMessage && (
+        <div className="congrats-message">
+          <p>Congratulations! You have successfully exploited an XSS vulnerability!</p>
+        </div>
+      )}
+
       {message && <p className="feedback-message">{message}</p>}
 
-      
-      <div className="search-bar">
+      <div>
         <input
           type="text"
           placeholder="Search for vegetables..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <iframe
+          id="xssFrame"
+          title="XSS Test Frame"
+          srcDoc={searchTerm}
+          style={{ width: "100%", height: "200px", border: "1px solid black" }}
+          onLoad={handleIframeLoad}
+        ></iframe>
       </div>
 
       <div className="nav-buttons">
@@ -121,12 +148,10 @@ const Dashboard = () => {
           <button>File Upload</button>
         </Link>
         <Link to="/photo">
-        <button>photo</button>
+          <button>Photo</button>
         </Link>
-        
       </div>
 
-    
       <div className="vegetable-container">
         {filteredVegetables.map((veg) => (
           <div key={veg.id} className="vegetable-card">
