@@ -11,6 +11,7 @@ import ConfidentialDocuments from './components/ConfidentialDocuments';
 import FileUpload from './components/FileUpload';
 import Scoreboard from './components/Scoreboard';
 import Photo from './components/Photo';
+import Offers from './components/Offers';
 import './App.css';
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/file-upload" element={<FileUpload />} />
           <Route path="/scoreboard" element={<Scoreboard />} />
           <Route path="/photo" element={<Photo/>}/>
+          <Route path='/offers' element={<Offers/>}/>
         </Routes>
       </Router>
     </div>

@@ -147,6 +147,9 @@ const Dashboard = () => {
         <Link to="/file-upload">
           <button>File Upload</button>
         </Link>
+        <Link to="/offers">
+             <button>offers</button>
+        </Link>
         <Link to="/photo">
           <button>Photo</button>
         </Link>
