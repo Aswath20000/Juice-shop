@@ -12,6 +12,7 @@ import FileUpload from './components/FileUpload';
 import Scoreboard from './components/Scoreboard';
 import Photo from './components/Photo';
 import Offers from './components/Offers';
+import Challenges from './components/Challenges';
 import './App.css';
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/scoreboard" element={<Scoreboard />} />
           <Route path="/photo" element={<Photo/>}/>
           <Route path='/offers' element={<Offers/>}/>
+          <Route path='/challenges' element={<Challenges/>}/>
         </Routes>
       </Router>
     </div>

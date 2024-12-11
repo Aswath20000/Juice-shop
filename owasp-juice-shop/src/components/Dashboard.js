@@ -199,6 +199,9 @@ const Dashboard = () => {
         <Link to="/photo">
           <button>Photo</button>
         </Link>
+        <Link to="/challenges">
+          <button>Challenges</button>
+        </Link>
       </div>
 
       <div className="vegetable-container">
