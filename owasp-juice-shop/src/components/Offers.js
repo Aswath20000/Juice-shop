@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import CryptoJS from 'crypto-js';
 
-// Function to generate MD5 hash for validation
+// Function to generate MD5 hash 
 const generateMD5Hash = (day, month, discount) => {
   const couponString = `${day}-${month}-${discount}`;
-  const hash = CryptoJS.MD5(couponString).toString(CryptoJS.enc.Hex); // Ensure it's Hex
+  const hash = CryptoJS.MD5(couponString).toString(CryptoJS.enc.Hex); 
   return hash;
 };
 
 const Offers = () => {
-  const [userInput, setUserInput] = useState(''); // User-entered coupon code
-  const [isValid, setIsValid] = useState(false); // Validity status
-  const [discount, setDiscount] = useState(null); // Discount percentage if valid
+  const [userInput, setUserInput] = useState(''); 
+  const [isValid, setIsValid] = useState(false); 
+  const [discount, setDiscount] = useState(null); 
 
-  // Hardcoded example coupon details for validation
-  const day = String(new Date().getDate()).padStart(2, '0'); // Current day
-  const month = String(new Date().getMonth() + 1).padStart(2, '0'); // Current month
-  const validDiscounts = [10, 20, 30, 40, 50]; // Example discounts
+  const day = String(new Date().getDate()).padStart(2, '0'); 
+  const month = String(new Date().getMonth() + 1).padStart(2, '0'); 
+  const validDiscounts = [10, 20, 30, 40, 50]; 
 
-  // Generate valid coupons for comparison
   const validCoupons = validDiscounts.map((discount) => generateMD5Hash(day, month, discount));
 
-  // Validate the user input
   const validateCoupon = () => {
-    const trimmedInput = userInput.trim(); // Remove leading/trailing spaces
+    const trimmedInput = userInput.trim(); 
     console.log("User input hash:", trimmedInput);
 
     const matchedIndex = validCoupons.findIndex(
