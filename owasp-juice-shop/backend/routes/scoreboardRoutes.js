@@ -9,6 +9,10 @@ router.get('/:username', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+    if (!user.achievements.includes('scoreboard')) {
+      user.achievements.push('scoreboard');
+      await user.save();
+    }
     res.json({ achievements: user.achievements || [] });
   } catch (error) {
     console.error('Error fetching achievements:', error);
