@@ -9,6 +9,8 @@ const Dashboard = () => {
   const [showFileCongratsMessage, setShowFileCongratsMessage] = useState(false);
   const [showConfidentialCongratsMessage, setShowConfidentialCongratsMessage] = useState(false);
   const [showXSSCongratsMessage, setShowXSSCongratsMessage] = useState(false);
+  const [showJohnCongratsMessage, setShowJohnCongratsMessage] = useState(false);
+  const [showScoreboardCongratsMessage, setShowScoreboardCongratsMessage] = useState(false); // State for scoreboard congrats
   const [searchTerm, setSearchTerm] = useState("");
   const [vegetables] = useState([
     { id: 1, name: "Tomato", description: "Fresh and juicy tomatoes.", image: "images/tomato.jpg" },
@@ -26,9 +28,19 @@ const Dashboard = () => {
     const fetchUserAchievements = async () => {
       if (username !== "Guest") {
         try {
-          const response = await axios.get(`http://localhost:5000/api/user/${username}`);
+          // Fetch the user's achievements and display congrats messages
+          const response = await axios.get(`http://localhost:5000/api/scoreboard/${username}`);
           const achievements = response.data.achievements;
 
+          // If the user has the 'scoreboard' achievement, show the congrats message
+          if (achievements.includes("scoreboard")) {
+            setShowScoreboardCongratsMessage(true);
+          }
+
+          // Check other achievements and display congrats messages as needed
+          if (username.toLowerCase() === "john") {
+            setShowJohnCongratsMessage(true);
+          }
           if (achievements.includes("fileupload")) {
             setShowFileCongratsMessage(true);
           }
@@ -72,18 +84,39 @@ const Dashboard = () => {
     localStorage.removeItem("accessedConfidentialDocs");
   };
 
-  // Function to detect XSS in iframe content
-  const handleIframeLoad = () => {
-    const iframe = document.getElementById("xssFrame");
-    if (iframe) {
-      try {
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        if (iframeDoc.body.innerHTML.includes("<script>")) {
-          setShowXSSCongratsMessage(true);
-        }
-      } catch (error) {
-        console.error("Error accessing iframe content:", error);
-      }
+  const handleCloseJohnCongratsMessage = () => {
+    setShowJohnCongratsMessage(false);
+  };
+
+  const handleCloseScoreboardCongratsMessage = () => {
+    setShowScoreboardCongratsMessage(false);
+  };
+
+  const handleSearchChange = (e) => {
+    const input = e.target.value;
+    setSearchTerm(input);
+
+    // Check for the presence of a full <script>...</script> tag (XSS vulnerability)
+    const scriptPattern = /<script\b[^>]*>[\s\S]*?<\/script>/i;
+
+    if (scriptPattern.test(input)) {
+      setTimeout(() => {
+        alert("XSS Detected!");
+        setShowXSSCongratsMessage(true);
+        addXSSAchievement(); // Add the achievement to the database
+      }, 100); // Simulate alert closing
+    }
+  };
+
+  const addXSSAchievement = async () => {
+    if (username === "Guest") return;
+
+    try {
+      await axios.post(`http://localhost:5000/api/scoreboard/${username}`, {
+        achievement: "xss",
+      });
+    } catch (error) {
+      console.error("Error updating XSS achievement:", error);
     }
   };
 
@@ -96,6 +129,13 @@ const Dashboard = () => {
       <h1>Hello, {username}</h1>
       <p>Welcome to your dashboard!</p>
 
+      {showScoreboardCongratsMessage && (
+        <div className="congrats-message">
+          <p>Congratulations! You have accessed the Scoreboard.</p>
+          <button onClick={handleCloseScoreboardCongratsMessage}>Close</button>
+        </div>
+      )}
+
       {showFileCongratsMessage && (
         <div className="congrats-message">
           <p>Congratulations! You have completed the File Upload Challenge.</p>
@@ -107,6 +147,13 @@ const Dashboard = () => {
         <div className="congrats-message">
           <p>Congratulations! You have accessed the Confidential Documents.</p>
           <button onClick={handleCloseConfidentialCongratsMessage}>Close</button>
+        </div>
+      )}
+
+      {showJohnCongratsMessage && (
+        <div className="congrats-message">
+          <p>Congratulations! You have accessed John's user account.</p>
+          <button onClick={handleCloseJohnCongratsMessage}>Close</button>
         </div>
       )}
 
@@ -123,14 +170,13 @@ const Dashboard = () => {
           type="text"
           placeholder="Search for vegetables..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
         />
         <iframe
           id="xssFrame"
           title="XSS Test Frame"
           srcDoc={searchTerm}
           style={{ width: "100%", height: "200px", border: "1px solid black" }}
-          onLoad={handleIframeLoad}
         ></iframe>
       </div>
 
