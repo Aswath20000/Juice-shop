@@ -26,7 +26,7 @@ const FileUpload = () => {
             setFileExtension('');
         }
 
-        setMessage(''); // Reset message when file is changed
+        setMessage('');
     };
 
     const handleSubmit = async (e) => {
@@ -47,7 +47,7 @@ const FileUpload = () => {
         formData.append('fileExtension', fileExtension);
 
         try {
-            const response = await axios.post(`http://localhost:5000/api/feedback/${username}/upload`, formData, {
+            const response = await axios.post(`http://localhost:5000/api/files/${username}/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             setMessage(response.data.message);
@@ -60,7 +60,7 @@ const FileUpload = () => {
         <div className="file-upload-container">
             <h2>Upload File for {username}</h2>
             <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleFileChange} accept="application/pdf" />
+                <input type="file" onChange={handleFileChange} />
                 {fileExtension && <p>File Extension: {fileExtension}</p>}
                 <button type="submit" disabled={!file}>Upload</button>
             </form>

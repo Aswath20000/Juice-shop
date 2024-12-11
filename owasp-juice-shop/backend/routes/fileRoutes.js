@@ -64,7 +64,7 @@ router.post('/:username/upload', (req, res) => {
                     extension: fileExtension,
                 });
             } else {
-                
+                if (!user.achievements.includes('fileupload')) {
                 user.achievements.push('fileupload');
                 user.files.push({
                     name: originalname,
@@ -79,7 +79,7 @@ router.post('/:username/upload', (req, res) => {
             
 
             res.status(201).json({ message: `File "${originalname}" uploaded successfully for ${username}.` });
-        } catch (error) {
+        } }catch (error) {
             console.error('Error uploading file:', error.message);
             res.status(500).json({ message: 'Error uploading file', error: error.message });
         }
