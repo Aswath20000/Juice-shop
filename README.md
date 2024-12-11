@@ -71,6 +71,7 @@ Install the required packages using npm:
 
 ```bash
 npm install
+npm install crypto-js
 cd backend
 npm i
 ```
